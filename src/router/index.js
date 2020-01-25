@@ -1,15 +1,10 @@
 import Vue from 'vue'
 import Router from 'vue-router'
 import Home from '../components/Home'
-import AddClient from '../components/Client/AddClient'
-import AddEmployee from '../components/Employee/AddEmployee'
-import AddProduct from '../components/Product/AddProduct'
-import Client from '../components/Client/Client'
-import Employee from '../components/Employee/Employee'
-import Product from '../components/Product/Product'
-import Commande from '../components/Commande/Commande'
-import AddCommande from '../components/Commande/AddCommande'
-import UpdateClient from '../components/Client/UpdateClient'
+import Client from '../components/Client'
+import Employee from '../components/Employee'
+import Product from '../components/Product'
+import Commande from '../components/Commande'
 import Login from '../components/Login'
 import Index from '../components/Index'
 
@@ -33,28 +28,13 @@ export const menuRouter = [
         path: '/client/list', component: Client
       },
       {
-        path: '/client/add', component: AddClient
-      },
-      {
-        path: '/client/update', component: UpdateClient
-      },
-      {
         path: '/employee/list', component: Employee
-      },
-      {
-        path: '/employee/add', component: AddEmployee
       },
       {
         path: '/product/list', component: Product
       },
       {
-        path: '/product/add', component: AddProduct
-      },
-      {
         path: '/commande/list', component: Commande
-      },
-      {
-        path: '/commande/add', component: AddCommande
       }
     ]
   }

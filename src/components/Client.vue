@@ -2,10 +2,11 @@
   <div>
     <el-table
       :data="listClients.filter(data => !search || data.name.toLowerCase().includes(search.toLowerCase()))"
-      style="width: 100%">
-      <el-table-column prop="id" label="id" width="300"></el-table-column>
-      <el-table-column prop="name" label="name" width="180"></el-table-column>
-      <el-table-column prop="age" label="age" width="180"></el-table-column>
+      style="width: 100%"
+      :default-sort="{prop: 'id', order: 'ascending'}">
+      <el-table-column prop="id" label="id" sortable width="300"></el-table-column>
+      <el-table-column prop="name" label="name" sortable width="180"></el-table-column>
+      <el-table-column prop="description" label="description" sortable width="180"></el-table-column>
       <el-table-column align="left" width="180">
         <template slot="header" slot-scope="scope">
           <el-input
@@ -24,23 +25,23 @@
         </template>
       </el-table-column>
     </el-table>
-    <el-button @click="addPage">Add Client</el-button>
+    <el-button @click="handleForm(null,null)">Add Client</el-button>
   <el-dialog
     :title="formName"
     :visible.sync="formVisible"
     :before-close="hideForm">
-    <el-form ref="form" :model="formData" label-width="80px">
-      <el-form-item label="Id">
-        <el-input v-model="formData.id" :readonly="true"/>
+    <el-form ref="form" :model="formData" label-width="100px">
+      <el-form-item label="Id" disabled="true" hidden>
+        <el-input v-model="formData.id"/>
       </el-form-item>
       <el-form-item label="Name">
         <el-input v-model="formData.name"/>
       </el-form-item>
-      <el-form-item label="Age">
-        <el-input v-model="formData.age"/>
+      <el-form-item label="Description">
+        <el-input v-model="formData.description"/>
       </el-form-item>
       <el-form-item>
-        <el-button type="primary" @click="updateClient(formData.id,formData.name,formData.age)">修改</el-button>
+        <el-button type="primary" @click="confirmForm(formName, formData.id,formData.name,formData.description)" >确定</el-button>
         <el-button @click="hideForm">取消</el-button>
       </el-form-item>
     </el-form>
@@ -50,12 +51,11 @@
 </template>
 
 <script>
-// eslint-disable-next-line no-unused-vars
-import {deleteObject, listObject, updateObject} from '../method'
+import {addObject, deleteObject, listObject, updateObject} from './method'
 const formJson = {
   id: '',
   name: '',
-  age: ''
+  description: ''
 }
 export default {
   name: 'Clients',
@@ -72,15 +72,6 @@ export default {
     this.listClient()
   },
   methods: {
-    addPage () {
-      this.$router.push('add')
-    },
-    modifyPage (index, row) {
-      this.$router.push('update')
-    },
-    handleEdit (index, row) {
-      console.log(index, row)
-    },
     listClient () {
       listObject('client').then(response => {
         this.listClients = response.data
@@ -91,8 +82,14 @@ export default {
         this.listClient()
       })
     },
-    updateClient (id, name, age) {
-      updateObject('client', {id: id, name: name, age: age}).then(response => {
+    updateClient (id, name, description) {
+      updateObject('client', {id: id, name: name, description: description}).then(response => {
+        this.formVisible = false
+        this.listClient()
+      })
+    },
+    addClient (name, description) {
+      addObject('client', {name: name, description: description}).then(response => {
         this.formVisible = false
         this.listClient()
       })
@@ -106,13 +103,19 @@ export default {
       this.formVisible = true
       this.formData = JSON.parse(JSON.stringify(formJson))
       if (row !== null) {
-        console.log('23333')
         this.formData = Object.assign({}, row)
       }
       this.formName = 'add'
       if (index !== null) {
         this.index = index
-        this.formName = 'edit'
+        this.formName = 'update'
+      }
+    },
+    confirmForm (formName, id, name, description) {
+      if (formName === 'update') {
+        this.updateClient(id, name, description)
+      } else {
+        this.addClient(name, description)
       }
     }
   }

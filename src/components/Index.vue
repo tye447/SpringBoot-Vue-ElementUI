@@ -1,8 +1,11 @@
 <template>
   <div>
-    <el-button @click="logout">登出</el-button>
     <el-container>
+      <div align="right">
+        <el-button type="danger" @click="logout" width="100px">Logout</el-button>
+      </div>
       <el-header>商场后台管理系统</el-header>
+
       <el-container>
         <el-aside width="200px">
           <el-menu router

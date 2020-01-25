@@ -3,7 +3,7 @@ import router from '../router'
 function listObject (table) {
   return Axios.get(table + '/list')
     .then(response => {
-      console.log('response.status=' + response.status)
+      // console.log('list')
       return response
     })
     .catch(function (error) {
@@ -13,7 +13,7 @@ function listObject (table) {
 function login (params) {
   Axios.post('/login', {}, {params})
     .then(response => {
-      console.log('response.status1=' + response.status)
+      // console.log('login')
       if (response.status === 200) {
         router.push('/client/list')
       }
@@ -25,7 +25,7 @@ function login (params) {
 function deleteObject (table, params) {
   return Axios.delete(table + '/delete', {params})
     .then(response => {
-      console.log('response.status=' + response.status)
+      // console.log('delete')
       return response
     })
     .catch(function (error) {
@@ -35,7 +35,7 @@ function deleteObject (table, params) {
 function updateObject (table, params) {
   return Axios.post(table + '/update', {}, {params})
     .then(response => {
-      console.log('response.status=' + response.status)
+      // console.log('update')
       return response
     })
     .catch(function (error) {
@@ -45,11 +45,22 @@ function updateObject (table, params) {
 function addObject (table, params) {
   return Axios.post(table + '/add', {}, {params})
     .then(response => {
-      console.log('response.status=' + response.status)
+      // console.log('add')
       return response
     })
     .catch(function (error) {
       console.log(error)
     })
 }
-export {listObject, deleteObject, updateObject, addObject, login}
+function confirmCommande (params) {
+  return Axios.post('commande/confirm', {}, {params})
+    .then(response => {
+      // console.log('confirm')
+      return response
+    })
+    .catch(function (error) {
+      alert('Error of stock')
+      console.log(error)
+    })
+}
+export {listObject, deleteObject, updateObject, addObject, login, confirmCommande}
