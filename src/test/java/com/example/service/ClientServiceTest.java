@@ -29,21 +29,8 @@ public class ClientServiceTest {
 
     @Transactional
     @Test
-    public void getClientTest() {
-        Object object=clientService.findById("2");
-        if (!(object instanceof Client)) {
-            return;
-        }
-        Client client = (Client) object;
-        assertNotNull(client);
-        assertThat(client.getAge(),is(24));
-        assertThat(client.getName(),is("Arthur"));
-    }
-
-    @Transactional
-    @Test
     public void getClientEroorTest(){
-        Client client=clientService.findById("20");
+        Client client=clientService.findById(20);
         assertNull(client);
     }
 

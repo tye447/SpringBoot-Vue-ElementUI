@@ -23,7 +23,7 @@ public class ProductController {
 
     @PostMapping(value = "/add")
     @ResponseBody
-    @ResponseStatus(HttpStatus.CREATED)
+    @ResponseStatus(HttpStatus.OK)
     public Object addProduct(@RequestParam("stock") Integer stock, @RequestParam("name") String name,@RequestParam("price") Double price){
         Product product=new Product();
         product.setName(name);
@@ -31,27 +31,12 @@ public class ProductController {
         product.setPrice(price);
         return productService.addProduct(product);
     }
-
-    /*@GetMapping(value = "/get")
-    @ResponseBody
-    @ResponseStatus(HttpStatus.OK)
-    public Object findById(@RequestParam("id") String id){
-           return productService.findById(id);
-    }*/
-
-    @GetMapping(value = "/get")
-    @ResponseBody
-    @ResponseStatus(HttpStatus.OK)
-    public Object findByName(@RequestParam("name") String name){
-        return productService.findByName(name);
-    }
-
     @ResponseBody
     @PostMapping(value = "/update")
     @ResponseStatus(HttpStatus.OK)
-    public Product updateProduct(@RequestParam("id") String id,@RequestParam(value = "stock",required = false) Integer stock, @RequestParam(value = "name",required = false) String name,@RequestParam(value = "price",required = false) Double price){
+    public Product updateProduct(@RequestParam("id") Integer id,@RequestParam(value = "stock",required = false) Integer stock, @RequestParam(value = "name",required = false) String name,@RequestParam(value = "price",required = false) Double price){
         Product product=new Product();
-        product.setId(Integer.parseInt(id));
+        product.setId(id);
         if(name!=null) {
             product.setName(name);
         }
@@ -67,7 +52,7 @@ public class ProductController {
     @ResponseBody
     @DeleteMapping(value = "/delete")
     @ResponseStatus(HttpStatus.OK)
-    public void deleteProduct(@RequestParam("id") String id){
+    public void deleteProduct(@RequestParam("id") Integer id){
         productService.deleteProduct(id);
     }
 }

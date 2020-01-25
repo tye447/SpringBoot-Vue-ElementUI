@@ -1,23 +1,21 @@
-package com.example.auth;
+package com.example.model;
 
-import com.example.auth.Role;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import javax.persistence.*;
+import java.io.Serializable;
+import java.util.List;
 
 @JsonIgnoreProperties({"hibernateLazyInitializer","handler"})
 @Entity
 @Table(name="employee")
-public class Employee {
+public class Employee implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer id;
     private String password;
     private String name;
     private Integer age;
-    @ManyToOne
-    @JoinColumn(name="role_id")
-    private Role role;
 
     public Employee() {
     }
@@ -54,11 +52,5 @@ public class Employee {
         this.age = age;
     }
 
-    public Role getRole() {
-        return role;
-    }
 
-    public void setRole(Role role) {
-        this.role = role;
-    }
 }

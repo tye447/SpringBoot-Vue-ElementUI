@@ -2,6 +2,7 @@ package com.example.controller;
 
 import com.example.model.Client;
 import com.example.model.Commande;
+import com.example.model.Product;
 import com.example.service.ClientService;
 import com.example.service.CommandeService;
 import com.example.service.EmployeeService;
@@ -33,7 +34,7 @@ public class CommandeController {
 
     @PostMapping(value = "/add")
     @ResponseBody
-    @ResponseStatus(HttpStatus.CREATED)
+    @ResponseStatus(HttpStatus.OK)
     public Object addCommande(@RequestParam("client_name") String client_name,
                               @RequestParam("employee_name") String employee_name,
                               @RequestParam("product_name") String product_name,
@@ -50,7 +51,7 @@ public class CommandeController {
 
         }
         if(employee_name!=null) {
-            commande.setEmployee(employeeService.findByName(employee_name));
+            commande.setEmployee(employeeService.findByName(employee_name).get(0));
         }
         if(product_name!=null) {
             commande.setProduct(productService.findByName(product_name));
@@ -58,31 +59,24 @@ public class CommandeController {
         if(quantity!=null) {
             commande.setQuantity(quantity);
         }
+        commande.setState("no_confirmed");
         return commandeService.addCommande(commande);
     }
-
-    @GetMapping(value = "/get")
-    @ResponseBody
-    @ResponseStatus(HttpStatus.OK)
-    public Object getCommande(String method,@RequestParam("id") String id){
-           return commandeService.getCommande(id);
-    }
-
     @ResponseBody
     @PostMapping(value = "/update")
     @ResponseStatus(HttpStatus.OK)
-    public Commande updateCommande(@RequestParam("id") String id,
+    public Commande updateCommande(@RequestParam("id") Integer id,
                                    @RequestParam(value = "client_name",required = false) String client_name,
                                    @RequestParam(value = "employee_name",required = false) String employee_name,
                                    @RequestParam(value = "product_name",required = false) String product_name,
                                    @RequestParam(value = "quantity",required = false) Integer quantity) throws NullPointerException{
         Commande commande=new Commande();
-        commande.setId(Integer.parseInt(id));
+        commande.setId(id);
         if(client_name!=null) {
             commande.setClient(clientService.findByName(client_name));
         }
         if(employee_name!=null) {
-            commande.setEmployee(employeeService.findByName(employee_name));
+            commande.setEmployee(employeeService.findByName(employee_name).get(0));
         }
         if(product_name!=null) {
             commande.setProduct(productService.findByName(product_name));
@@ -95,8 +89,17 @@ public class CommandeController {
 
     @ResponseBody
     @DeleteMapping(value = "/delete")
-    @ResponseStatus(HttpStatus.NOT_FOUND)
-    public void deleteCommande(@RequestParam("id") String id){
+    @ResponseStatus(HttpStatus.OK)
+    public void deleteCommande(@RequestParam("id") Integer id){
         commandeService.deleteCommande(id);
+    }
+
+    @ResponseBody
+    @PostMapping(value = "/confirm")
+    @ResponseStatus(HttpStatus.OK)
+    public Commande confirmCommande(@RequestParam("id") Integer id){
+        Commande commande=commandeService.findById(id);
+        productService.reduceStock(commande);
+        return commande;
     }
 }

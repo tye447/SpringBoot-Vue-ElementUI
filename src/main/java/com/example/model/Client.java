@@ -1,10 +1,8 @@
 package com.example.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
-import javax.validation.constraints.NotNull;
 
 @JsonIgnoreProperties({"hibernateLazyInitializer","handler"})
 @Entity
@@ -14,7 +12,7 @@ public class Client {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer id;
     private String name;
-    private Integer age;
+    private String description;
 
     public Client(){
     }
@@ -35,11 +33,11 @@ public class Client {
         this.name = name;
     }
 
-    public Integer getAge() {
-        return age;
+    public String getDescription() {
+        return description;
     }
 
-    public void setAge(Integer age) {
-        this.age = age;
+    public void setDescription(String description) {
+        this.description = description;
     }
 }

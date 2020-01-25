@@ -5,7 +5,7 @@ import org.springframework.data.jpa.repository.Query;
 
 import java.util.List;
 
-public interface ClientRepository extends JpaRepository<Client, String> {
+public interface ClientRepository extends JpaRepository<Client, Integer> {
     Client findByName(String name);
 }
 

@@ -23,10 +23,10 @@ public class ClientController {
     @PostMapping(value = "/add")
     @ResponseBody
     @ResponseStatus(HttpStatus.CREATED)
-    public Object addClient(@RequestParam("name") String name,@RequestParam("age") Integer age){
+    public Object addClient(@RequestParam("name") String name,@RequestParam("description") String description){
         Client client=new Client();
         client.setName(name);
-        client.setAge(age);
+        client.setDescription(description);
         return clientService.addClient(client);
     }
 
@@ -48,14 +48,15 @@ public class ClientController {
     @ResponseBody
     @PostMapping(value = "/update")
     @ResponseStatus(HttpStatus.OK)
-    public Client updateClient(@RequestParam("id") String id, @RequestParam(value = "name",required = false) String name,@RequestParam(value = "age",required = false) Integer age) throws NullPointerException{
+    public Client updateClient(@RequestParam("id") Integer id, @RequestParam(value = "name",required = false) String name,@RequestParam(value = "description",required = false) String description) throws NullPointerException{
         Client client=new Client();
-        client.setId(Integer.parseInt(id));
+        client.setId(id);
+        System.out.println("234432432423423423");
         if(name!=null) {
             client.setName(name);
         }
-        if(age!=null) {
-            client.setAge(age);
+        if(description!=null) {
+            client.setDescription(description);
         }
         return clientService.updateClient(id,client);
     }
@@ -63,7 +64,7 @@ public class ClientController {
     @ResponseBody
     @DeleteMapping(value = "/delete")
     @ResponseStatus(HttpStatus.OK)
-    public void deleteClient(@RequestParam("id") String id){
+    public void deleteClient(@RequestParam("id") Integer id){
         clientService.deleteClient(id);
     }
 }

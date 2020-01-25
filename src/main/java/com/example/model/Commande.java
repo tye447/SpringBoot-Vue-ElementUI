@@ -1,6 +1,5 @@
 package com.example.model;
 
-import com.example.auth.Employee;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import javax.persistence.*;
@@ -26,6 +25,15 @@ public class Commande implements Serializable {
     @JoinColumn(name="product_id")
     private Product product;
     private Integer quantity;
+    private String state;
+
+    public String getState() {
+        return state;
+    }
+
+    public void setState(String state) {
+        this.state = state;
+    }
 
     public Integer getId() {
         return id;

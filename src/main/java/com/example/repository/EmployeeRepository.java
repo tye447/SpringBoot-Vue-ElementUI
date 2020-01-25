@@ -1,10 +1,12 @@
 package com.example.repository;
-import com.example.auth.Employee;
+import com.example.model.Employee;
 import org.springframework.data.jpa.repository.JpaRepository;
 
-public interface EmployeeRepository extends JpaRepository<Employee, String> {
+import java.util.List;
+import java.util.Optional;
+
+public interface EmployeeRepository extends JpaRepository<Employee, Integer> {
     Employee findByNameAndPassword(String name, String password);
-    Employee findByName(String name);
-    Employee findByPassword(String password);
+    List<Employee> findByName(String name);
 }
 

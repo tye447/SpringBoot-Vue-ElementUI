@@ -20,16 +20,16 @@ public class ClientService {
     public Client addClient(Client client){
         return clientRepository.save(client);
     }
-    public void deleteClient(String id){
+    public void deleteClient(Integer id){
         clientRepository.deleteById(id);
     }
-    public Client updateClient(String id,Client client){
+    public Client updateClient(Integer id,Client client){
         Client currentInstance=clientRepository.findById(id).orElse(null);
         String[] nullPropertyNames = getNullPropertyNames(client);
         BeanUtils.copyProperties(client, currentInstance, nullPropertyNames);
         return clientRepository.save(currentInstance);
     }
-    public Client findById(String id){
+    public Client findById(Integer id){
         Client client = clientRepository.findById(id).orElse(null);
         return client;
     }
