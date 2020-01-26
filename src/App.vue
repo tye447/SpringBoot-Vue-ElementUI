@@ -5,9 +5,6 @@
 </template>
 
 <script>
-// import Login from './components/Login'
-// eslint-disable-next-line no-unused-vars
-import Home from './components/Home'
 export default {
   name: 'App'
 }

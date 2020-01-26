@@ -1,6 +1,5 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-import Home from '../components/Home'
 import Client from '../components/Client'
 import Employee from '../components/Employee'
 import Product from '../components/Product'
@@ -21,9 +20,6 @@ export const menuRouter = [
     path: '/index',
     component: Index,
     children: [
-      {
-        path: '/home', component: Home
-      },
       {
         path: '/client/list', component: Client
       },
