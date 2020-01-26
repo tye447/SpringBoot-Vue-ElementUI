@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
+import javax.transaction.Transactional;
 import java.util.List;
 
 @RestController
@@ -97,6 +98,7 @@ public class CommandeController {
     @ResponseBody
     @PostMapping(value = "/confirm")
     @ResponseStatus(HttpStatus.OK)
+    @Transactional
     public Commande confirmCommande(@RequestParam("id") Integer id){
         Commande commande=commandeService.findById(id);
         productService.reduceStock(commande);
