@@ -16,7 +16,7 @@
           <el-input
             v-model="search"
             size="mini"
-            placeholder="输入关键字搜索"/>
+            placeholder="search"/>
         </template>
         <template slot-scope="scope">
           <el-button
@@ -41,7 +41,7 @@
         <el-form-item label="Id" disabled="true" hidden>
           <el-input v-model="formData.id"/>
         </el-form-item>
-        <el-select v-model="formData.client.name" placeholder="请选择">
+        <el-select v-model="formData.client.name" placeholder="Please choose">
           <el-option
             v-for="item in formData.listClients"
             :key="item.id"
@@ -49,7 +49,7 @@
             :value="item.name">
           </el-option>
         </el-select>
-        <el-select v-model="formData.employee.name" placeholder="请选择">
+        <el-select v-model="formData.employee.name" placeholder="Please choose">
           <el-option
             v-for="item in formData.listEmployees"
             :key="item.id"
@@ -57,7 +57,7 @@
             :value="item.name">
           </el-option>
         </el-select>
-        <el-select v-model="formData.product.name" placeholder="请选择">
+        <el-select v-model="formData.product.name" placeholder="Please choose">
           <el-option
             v-for="item in formData.listProducts"
             :key="item.id"
@@ -69,8 +69,8 @@
           <el-input v-model="formData.quantity"/>
         </el-form-item>
         <el-form-item>
-          <el-button type="primary" @click="confirmForm(formName, formData.id,formData.client.name,formData.employee.name,formData.product.name,formData.quantity)">立即创建</el-button>
-          <el-button @click="hideForm">取消</el-button>
+          <el-button type="primary" @click="confirmForm(formName, formData.id,formData.client.name,formData.employee.name,formData.product.name,formData.quantity)">OK</el-button>
+          <el-button @click="hideForm">Cancel</el-button>
         </el-form-item>
       </el-form>
     </el-dialog>
@@ -150,7 +150,6 @@ export default {
       })
     },
     hideForm () {
-      // 更改值
       this.formVisible = !this.formVisible
       return true
     },

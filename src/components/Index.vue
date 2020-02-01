@@ -4,7 +4,7 @@
       <div align="right">
         <el-button type="danger" @click="logout" width="100px">Logout</el-button>
       </div>
-      <el-header>商场后台管理系统</el-header>
+      <el-header>Supermarket Admin System</el-header>
 
       <el-container>
         <el-aside width="200px">
@@ -16,19 +16,19 @@
                    active-text-color="#ffd04b">
             <el-menu-item index="/employee/list">
               <i class="el-icon-document"></i>
-              <span slot="title">用户管理</span>
+              <span slot="title">Employees</span>
             </el-menu-item>
             <el-menu-item index="/client/list">
               <i class="el-icon-document"></i>
-              <span slot="title">客户管理</span>
+              <span slot="title">Clients</span>
             </el-menu-item>
             <el-menu-item index="/product/list">
               <i class="el-icon-document"></i>
-              <span slot="title">产品管理</span>
+              <span slot="title">Products</span>
             </el-menu-item>
             <el-menu-item index="/commande/list">
               <i class="el-icon-document"></i>
-              <span slot="title">订单管理</span>
+              <span slot="title">Commandes</span>
             </el-menu-item>
           </el-menu>
         </el-aside>

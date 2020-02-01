@@ -12,7 +12,7 @@
           <el-input
             v-model="search"
             size="mini"
-            placeholder="输入关键字搜索名字"/>
+            placeholder="search"/>
         </template>
         <template slot-scope="scope">
           <el-button
@@ -41,8 +41,8 @@
         <el-input v-model="formData.description"/>
       </el-form-item>
       <el-form-item>
-        <el-button type="primary" @click="confirmForm(formName, formData.id,formData.name,formData.description)" >确定</el-button>
-        <el-button @click="hideForm">取消</el-button>
+        <el-button type="primary" @click="confirmForm(formName, formData.id,formData.name,formData.description)" >OK</el-button>
+        <el-button @click="hideForm">Cancel</el-button>
       </el-form-item>
     </el-form>
   </el-dialog>
