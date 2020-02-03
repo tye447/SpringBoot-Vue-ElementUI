@@ -23,14 +23,14 @@ public class ClientServiceTest {
 
     @Transactional
     @Test
-    public void getListClientTest(){
-        List<Client> clientList=clientService.listClient();
+    public void getListClientTest() {
+        List<Client> clientList = clientService.listClient();
     }
 
     @Transactional
     @Test
-    public void getClientEroorTest(){
-        Client client=clientService.findById(20);
+    public void getClientEroorTest() {
+        Client client = clientService.findById(20);
         assertNull(client);
     }
 

@@ -23,40 +23,47 @@ public class ProductService {
     private CommandeRepository commandeRepository;
     @Autowired
     private CommandeService commandeService;
-    public List<Product> listProduct(){
+
+    public List<Product> listProduct() {
         return productRepository.findAll();
     }
-    public Product addProduct(Product Product){
+
+    public Product addProduct(Product Product) {
         return productRepository.save(Product);
     }
-    public void deleteProduct(Integer id){
+
+    public void deleteProduct(Integer id) {
         productRepository.deleteById(id);
     }
-    public Product updateProduct(Integer id,Product Product){
-        Product currentInstance= productRepository.findById(id).orElse(null);
+
+    public Product updateProduct(Integer id, Product Product) {
+        Product currentInstance = productRepository.findById(id).orElse(null);
         String[] nullPropertyNames = getNullPropertyNames(Product);
         BeanUtils.copyProperties(Product, currentInstance, nullPropertyNames);
         return productRepository.save(currentInstance);
     }
-    public Product findById(Integer id){
+
+    public Product findById(Integer id) {
         Product product = productRepository.findById(id).orElse(null);
         return product;
     }
-    public Product findByName(String name){
+
+    public Product findByName(String name) {
         return productRepository.findByName(name);
     }
-    public void reduceStock(Commande commande){
-        Product product=commande.getProduct();
-        Integer quantity=commande.getQuantity();
-        if(product.getStock()==0){
+
+    public void reduceStock(Commande commande) {
+        Product product = commande.getProduct();
+        Integer quantity = commande.getQuantity();
+        if (product.getStock() == 0) {
             throw new RuntimeException("商品：" + product.getName() + ",不存在.");
         }
-        if(product.getStock()-quantity<0){
+        if (product.getStock() - quantity < 0) {
             throw new RuntimeException("商品：" + product.getName() + "库存不足.");
         }
-        product.setStock(product.getStock()-quantity);
+        product.setStock(product.getStock() - quantity);
         productRepository.save(product);
         commande.setState("confirmed");
-        commandeService.updateCommande(commande.getId(),commande);
+        commandeService.updateCommande(commande.getId(), commande);
     }
 }

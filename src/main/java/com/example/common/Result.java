@@ -1,7 +1,6 @@
 package com.example.common;
 
-public class Result
-{
+public class Result {
     /**
      * 错误内容
      */
@@ -13,34 +12,29 @@ public class Result
     private int code;
 
 
-    public Result(String error, int code)
-    {
+    public Result(String error, int code) {
         this.error = error;
         this.code = code;
     }
 
-    public String getError()
-    {
+    public String getError() {
         return error;
     }
 
-    public void setError(String error)
-    {
+    public void setError(String error) {
         this.error = error;
     }
 
-    public int getCode()
-    {
+    public int getCode() {
         return code;
     }
 
-    public void setCode(int code)
-    {
+    public void setCode(int code) {
         this.code = code;
     }
 
 
-    public enum ErrorCode{
+    public enum ErrorCode {
         /**
          * 用户不存在
          */
@@ -54,13 +48,11 @@ public class Result
 
         private int code;
 
-        public int getCode()
-        {
+        public int getCode() {
             return code;
         }
 
-        ErrorCode(int code)
-        {
+        ErrorCode(int code) {
             this.code = code;
         }
     }

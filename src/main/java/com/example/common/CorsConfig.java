@@ -29,6 +29,7 @@ public class CorsConfig extends WebMvcConfigurationSupport {
                         "userAuth")
                 .maxAge(3600);
     }
+
     @Override
     protected void addResourceHandlers(ResourceHandlerRegistry registry) {
         registry.addResourceHandler("/static/**").addResourceLocations("classpath:/static/");

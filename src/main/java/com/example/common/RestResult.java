@@ -1,5 +1,7 @@
 package com.example.common;
+
 import com.alibaba.fastjson.JSON;
+
 public class RestResult {
     private int code;//状态码
 

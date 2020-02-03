@@ -6,23 +6,23 @@ import javax.persistence.*;
 import java.io.Serializable;
 
 @Entity
-@JsonIgnoreProperties({"hibernateLazyInitializer","handler"})
-@Table(name="commande")
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
+@Table(name = "commande")
 public class Commande implements Serializable {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
     @ManyToOne
-    @JoinColumn(name="client_id")
+    @JoinColumn(name = "client_id")
     private Client client;
 
     @ManyToOne
-    @JoinColumn(name="employee_id")
+    @JoinColumn(name = "employee_id")
     private Employee employee;
 
     @ManyToOne
-    @JoinColumn(name="product_id")
+    @JoinColumn(name = "product_id")
     private Product product;
     private Integer quantity;
     private String state;
@@ -75,7 +75,7 @@ public class Commande implements Serializable {
         this.quantity = quantity;
     }
 
-    public Commande(){
+    public Commande() {
     }
 
 }

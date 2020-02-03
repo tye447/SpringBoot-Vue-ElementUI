@@ -16,26 +16,32 @@ import static com.example.util.Util.getNullPropertyNames;
 public class CommandeService {
     @Autowired
     private CommandeRepository commandeRepository;
-    public List<Commande> listCommande(){
+
+    public List<Commande> listCommande() {
         return commandeRepository.findAll();
     }
-    public Commande addCommande(Commande commande){
+
+    public Commande addCommande(Commande commande) {
         return commandeRepository.save(commande);
     }
-    public void deleteCommande(Integer id){
+
+    public void deleteCommande(Integer id) {
         commandeRepository.deleteById(id);
     }
-    public Commande updateCommande(Integer id,Commande commande){
-        Commande currentInstance=commandeRepository.findById(id).orElse(null);
+
+    public Commande updateCommande(Integer id, Commande commande) {
+        Commande currentInstance = commandeRepository.findById(id).orElse(null);
         String[] nullPropertyNames = getNullPropertyNames(commande);
         BeanUtils.copyProperties(commande, currentInstance, nullPropertyNames);
         return commandeRepository.save(currentInstance);
     }
-    public Commande findById(Integer id){
-        Optional<Commande> optionalCommande=commandeRepository.findById(id);
+
+    public Commande findById(Integer id) {
+        Optional<Commande> optionalCommande = commandeRepository.findById(id);
         return optionalCommande.get();
     }
-    public Commande findByProduct(Product product){
+
+    public Commande findByProduct(Product product) {
         return commandeRepository.findByProduct(product);
     }
 }

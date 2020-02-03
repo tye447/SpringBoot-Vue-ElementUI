@@ -28,10 +28,12 @@ public class ClientControllerTest {
     @Autowired
     private WebApplicationContext webApplicationContext;
     private MockMvc mockMvc;
+
     @Before
     public void setUp() {
         mockMvc = MockMvcBuilders.webAppContextSetup(webApplicationContext).build();
     }
+
     @Test
     public void queryListClient() throws Exception {
         RequestBuilder request = null;
@@ -40,6 +42,7 @@ public class ClientControllerTest {
                 .andExpect(status().isOk())
                 .andDo(print());
     }
+
     @Test
     public void queryGetClient() throws Exception {
         RequestBuilder request = null;
@@ -48,6 +51,7 @@ public class ClientControllerTest {
                 .andExpect(status().isOk())
                 .andDo(print());
     }
+
     @Test
     public void queryAddClient() throws Exception {
         RequestBuilder request = null;
