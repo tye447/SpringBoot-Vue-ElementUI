@@ -16,11 +16,11 @@
         </template>
         <template slot-scope="scope">
           <el-button
-            size="mini"
+            size="mini" :disabled="scope.row.name!=sessionName && sessionName!='admin'?true:false"
             @click="handleForm(scope.$index, scope.row)">Edit</el-button>
           <el-button
             size="mini"
-            type="danger"
+            type="danger" :disabled="scope.row.name!=sessionName && sessionName!='admin'?true:false"
             @click="deleteEmployee(scope.$index, scope.row)">Delete</el-button>
         </template>
       </el-table-column>
@@ -53,7 +53,7 @@
 </template>
 
 <script>
-import {addObject, deleteObject, listObject, updateObject} from './method'
+import {addObject, deleteObject, listObject, logout, updateObject} from './method'
 const formJson = {
   id: '',
   name: '',
@@ -68,7 +68,8 @@ export default {
       search: '',
       formVisible: false,
       formData: formJson,
-      formName: null
+      formName: null,
+      sessionName: sessionStorage.getItem('username')
     }
   },
   mounted () {
@@ -85,10 +86,18 @@ export default {
         this.listEmployee()
       })
     },
-    updateEmployee (id, name, age) {
-      updateObject('employee', {id: id, name: name, age: age}).then(response => {
+    updateEmployee (id, name, age, password) {
+      let originName = sessionStorage.getItem('username')
+      console.log(originName)
+      updateObject('employee', {id: id, name: name, age: age, password: password}).then(response => {
         this.formVisible = false
-        this.listEmployee()
+        console.log(originName)
+        console.log(name)
+        if (originName === name) {
+          this.listEmployee()
+        } else {
+          logout()
+        }
       })
     },
     addEmployee (name, age, password) {

@@ -13,14 +13,19 @@ function listObject (table) {
 function login (params) {
   Axios.post('/login', {}, {params})
     .then(response => {
-      // console.log('login')
-      if (response.status === 200) {
+      console.log(response)
+      if (response.data !== '') {
         router.push('/client/list')
+        sessionStorage.setItem('username', response.data)
       }
     }).catch(function (error) {
       alert('user not found!')
       console.log(error)
     })
+}
+function logout () {
+  sessionStorage.removeItem('username')
+  router.push('/login')
 }
 function deleteObject (table, params) {
   return Axios.delete(table + '/delete', {params})
@@ -63,4 +68,4 @@ function confirmCommande (params) {
       console.log(error)
     })
 }
-export {listObject, deleteObject, updateObject, addObject, login, confirmCommande}
+export {listObject, deleteObject, updateObject, addObject, login, confirmCommande, logout}

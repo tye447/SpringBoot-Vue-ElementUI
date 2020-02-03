@@ -41,6 +41,8 @@
 </template>
 
 <script>
+import {logout} from './method'
+
 export default {
   name: 'Index',
   data () {
@@ -50,7 +52,8 @@ export default {
   },
   methods: {
     logout () {
-      this.$router.push('/login')
+      logout()
+      // this.$router.push('/login')
     }
   }
 }
