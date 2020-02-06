@@ -110,33 +110,33 @@ export default {
   methods: {
     listClient () {
       listObject('client').then(response => {
-        this.formData.listClients = response.data
+        this.formData.listClients = response.data.data
       })
     },
     listEmployee () {
       listObject('employee').then(response => {
-        this.formData.listEmployees = response.data
+        this.formData.listEmployees = response.data.data
       })
     },
     listProduct () {
       listObject('product').then(response => {
-        this.formData.listProducts = response.data
+        this.formData.listProducts = response.data.data
       })
     },
     listCommande () {
       listObject('commande').then(response => {
-        this.listCommandes = response.data
+        this.listCommandes = response.data.data
       })
     },
     deleteCommande (index, row) {
       deleteObject('commande', {id: row.id}).then(response => {
-        this.listCommande()
+        this.listCommandes = response.data.data
       })
     },
     updateCommande (id, cName, eName, pName, quantity) {
       updateObject('commande', {id: id, client_name: cName, employee_name: eName, product_name: pName, quantity: quantity}).then(response => {
         this.formVisible = false
-        this.listCommande()
+        this.listCommandes = response.data.data
       })
     },
     addCommande (cName, eName, pName, quantity) {
@@ -146,7 +146,7 @@ export default {
         product_name: pName,
         quantity: quantity}).then(response => {
         this.formVisible = false
-        this.listCommande()
+        this.listCommandes = response.data.data
       })
     },
     hideForm () {
@@ -176,7 +176,7 @@ export default {
     },
     confirm (index, row) {
       confirmCommande({id: row.id}).then(response => {
-        this.listCommande()
+        this.listCommandes = response.data.data
       }
       )
     },

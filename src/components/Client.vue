@@ -74,22 +74,25 @@ export default {
   methods: {
     listClient () {
       listObject('client').then(response => {
-        this.listClients = response.data
+        this.listClients = response.data.data
       })
     },
     deleteClient (index, row) {
       deleteObject('client', {id: row.id}).then(response => {
+        alert(response.data.data)
         this.listClient()
       })
     },
     updateClient (id, name, description) {
       updateObject('client', {id: id, name: name, description: description}).then(response => {
+        alert(response.data.data)
         this.formVisible = false
         this.listClient()
       })
     },
     addClient (name, description) {
       addObject('client', {name: name, description: description}).then(response => {
+        alert(response.data.data)
         this.formVisible = false
         this.listClient()
       })

@@ -3,7 +3,6 @@ import router from '../router'
 function listObject (table) {
   return Axios.get(table + '/list')
     .then(response => {
-      // console.log('list')
       return response
     })
     .catch(function (error) {
@@ -13,10 +12,9 @@ function listObject (table) {
 function login (params) {
   Axios.post('/login', {}, {params})
     .then(response => {
-      console.log(response)
-      if (response.data !== '') {
+      if (response.data.data !== '') {
         router.push('/client/list')
-        sessionStorage.setItem('username', response.data)
+        sessionStorage.setItem('username', response.data.data.name)
       }
     }).catch(function (error) {
       alert('user not found!')
@@ -30,7 +28,6 @@ function logout () {
 function deleteObject (table, params) {
   return Axios.delete(table + '/delete', {params})
     .then(response => {
-      // console.log('delete')
       return response
     })
     .catch(function (error) {
@@ -40,7 +37,6 @@ function deleteObject (table, params) {
 function updateObject (table, params) {
   return Axios.post(table + '/update', {}, {params})
     .then(response => {
-      // console.log('update')
       return response
     })
     .catch(function (error) {
@@ -50,7 +46,6 @@ function updateObject (table, params) {
 function addObject (table, params) {
   return Axios.post(table + '/add', {}, {params})
     .then(response => {
-      // console.log('add')
       return response
     })
     .catch(function (error) {
@@ -60,7 +55,6 @@ function addObject (table, params) {
 function confirmCommande (params) {
   return Axios.post('commande/confirm', {}, {params})
     .then(response => {
-      // console.log('confirm')
       return response
     })
     .catch(function (error) {

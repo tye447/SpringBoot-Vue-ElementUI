@@ -25,7 +25,7 @@
         </template>
       </el-table-column>
     </el-table>
-    <el-button @click="handleForm(null,null)">Add Employee</el-button>
+    <el-button @click="handleForm(null,null)" :disabled="sessionName!='admin'?true:false">Add Employee</el-button>
     <el-dialog
       :title="formName"
       :visible.sync="formVisible"
@@ -34,13 +34,13 @@
         <el-form-item label="Id" disabled="true" hidden>
           <el-input v-model="formData.id"/>
         </el-form-item>
-        <el-form-item label="Name">
+        <el-form-item label="Name" required>
           <el-input v-model="formData.name"/>
         </el-form-item>
-        <el-form-item label="Age">
+        <el-form-item label="Age" required>
           <el-input v-model="formData.age"/>
         </el-form-item>
-        <el-form-item label="Password">
+        <el-form-item label="Password" required>
           <el-input v-model="formData.password"/>
         </el-form-item>
         <el-form-item>
@@ -78,32 +78,32 @@ export default {
   methods: {
     listEmployee () {
       listObject('employee').then(response => {
-        this.listEmployees = response.data
-      })
-    },
-    deleteEmployee (index, row) {
-      deleteObject('employee', {id: row.id}).then(response => {
-        this.listEmployee()
-      })
-    },
-    updateEmployee (id, name, age, password) {
-      let originName = sessionStorage.getItem('username')
-      console.log(originName)
-      updateObject('employee', {id: id, name: name, age: age, password: password}).then(response => {
-        this.formVisible = false
-        console.log(originName)
-        console.log(name)
-        if (originName === name) {
-          this.listEmployee()
-        } else {
-          logout()
-        }
+        this.listEmployees = response.data.data
       })
     },
     addEmployee (name, age, password) {
       addObject('employee', { name: name, age: age, password: password }).then(response => {
+        alert(response.data.message)
         this.formVisible = false
-        this.listEmployee()
+        this.listEmployees = response.data.data
+      })
+    },
+    updateEmployee (id, name, age, password) {
+      updateObject('employee', {id: id, name: name, age: age, password: password}).then(response => {
+        this.formVisible = false
+        if (sessionStorage.getItem('username') === name) {
+          alert(response.data.message)
+          this.listEmployees = response.data.data
+        } else {
+          alert('Need to re-login!')
+          logout()
+        }
+      })
+    },
+    deleteEmployee (index, row) {
+      deleteObject('employee', {id: row.id}).then(response => {
+        alert(response.data.message)
+        this.listEmployees = response.data.data
       })
     },
     hideForm () {

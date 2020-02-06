@@ -78,24 +78,24 @@ export default {
   methods: {
     listProduct () {
       listObject('product').then(response => {
-        this.listProducts = response.data
+        this.listProducts = response.data.data
       })
     },
     deleteProduct (index, row) {
       deleteObject('product', {id: row.id}).then(response => {
-        this.listProduct()
+        this.listProducts = response.data.data
       })
     },
     updateProduct (id, name, price, stock) {
       updateObject('product', {id: id, name: name, price: price, stock: stock}).then(response => {
         this.formVisible = false
-        this.listProduct()
+        this.listProducts = response.data.data
       })
     },
     addProduct (name, price, stock) {
       addObject('product', {name: name, price: price, stock: stock}).then(response => {
         this.formVisible = false
-        this.listProduct()
+        this.listProducts = response.data.data
       })
     },
     hideForm () {
