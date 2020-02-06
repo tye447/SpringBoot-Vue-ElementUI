@@ -1,5 +1,8 @@
 package com.example.controller;
 
+import com.example.common.RestResult;
+import com.example.common.ResultCode;
+import com.example.common.ResultGenerator;
 import com.example.model.Client;
 import com.example.model.EntityFactory;
 import com.example.model.Product;
@@ -16,47 +19,65 @@ import java.util.List;
 public class ProductController {
     @Autowired
     private ProductService productService;
+    @Autowired
+    private ResultGenerator resultGenerator;
 
     @GetMapping(value = "/list")
     @ResponseBody
     @ResponseStatus(HttpStatus.OK)
-    public List<Product> productList() {
-        return productService.listProduct();
+    public RestResult productList() {
+        List<Product> productList;
+        try{
+            productList=productService.listProduct();
+            return resultGenerator.getSuccessResult(productList);
+        }catch (Exception e){
+            return resultGenerator.getFailResult(e.getMessage());
+        }
     }
 
     @PostMapping(value = "/add")
     @ResponseBody
     @ResponseStatus(HttpStatus.OK)
-    public Object addProduct(@RequestParam("stock") Integer stock, @RequestParam("name") String name, @RequestParam("price") Double price) {
-        Product product = (Product) EntityFactory.getEntity("Product");
-        product.setName(name);
-        product.setStock(stock);
-        product.setPrice(price);
-        return productService.addProduct(product);
+    public RestResult addProduct(@RequestParam("stock") Integer stock, @RequestParam("name") String name, @RequestParam("price") Double price) {
+        try{
+            Product product = (Product) EntityFactory.getEntity("Product");
+            product.setName(name);
+            product.setStock(stock);
+            product.setPrice(price);
+            productService.addProduct(product);
+            return resultGenerator.getSuccessResult(ResultCode.SUCCESS.toString());
+        }catch (Exception e){
+            return resultGenerator.getFailResult(e.getMessage());
+        }
     }
 
     @ResponseBody
     @PostMapping(value = "/update")
     @ResponseStatus(HttpStatus.OK)
-    public Product updateProduct(@RequestParam("id") Integer id, @RequestParam(value = "stock", required = false) Integer stock, @RequestParam(value = "name", required = false) String name, @RequestParam(value = "price", required = false) Double price) {
-        Product product = (Product) EntityFactory.getEntity("Product");
-        product.setId(id);
-        if (name != null) {
+    public RestResult updateProduct(@RequestParam("id") Integer id, @RequestParam(value = "stock", required = false) Integer stock, @RequestParam(value = "name", required = false) String name, @RequestParam(value = "price", required = false) Double price) {
+        try{
+            Product product = (Product)EntityFactory.getEntity("Product");
+            product.setId(id);
             product.setName(name);
-        }
-        if (stock != null) {
             product.setStock(stock);
-        }
-        if (price != null) {
             product.setPrice(price);
+            productService.updateProduct(id, product);
+            return resultGenerator.getSuccessResult(ResultCode.SUCCESS.toString());
+        }catch (Exception e){
+            return resultGenerator.getFailResult(e.getMessage());
         }
-        return productService.updateProduct(id, product);
     }
 
     @ResponseBody
     @DeleteMapping(value = "/delete")
     @ResponseStatus(HttpStatus.OK)
-    public void deleteProduct(@RequestParam("id") Integer id) {
-        productService.deleteProduct(id);
+    public RestResult deleteProduct(@RequestParam("id") Integer id)
+    {
+        try{
+            productService.deleteProduct(id);
+            return resultGenerator.getSuccessResult(ResultCode.SUCCESS.toString());
+        }catch (Exception e){
+            return resultGenerator.getFailResult(e.getMessage());
+        }
     }
 }

@@ -37,39 +37,18 @@ public class ClientControllerTest {
     @Test
     public void queryListClient() throws Exception {
         RequestBuilder request = null;
-        request = get("/api/client/clients");
+        request = get("/client/list");
         mockMvc.perform(request)
                 .andExpect(status().isOk())
                 .andDo(print());
     }
-
-    @Test
-    public void queryGetClient() throws Exception {
-        RequestBuilder request = null;
-        request = get("/api/client/clients/2");
-        mockMvc.perform(request)
-                .andExpect(status().isOk())
-                .andDo(print());
-    }
-
     @Test
     public void queryAddClient() throws Exception {
         RequestBuilder request = null;
-        String jsonTest = "{\"name\":\"test\",\"age\":33}";
-
-        request = post("/api/client/clients")
-                .accept(MediaType.APPLICATION_JSON)
-                .content(jsonTest)
-                .contentType(MediaType.APPLICATION_JSON);
+        request = post("/client/add?name=test&description=test");
         mockMvc.perform(request)
                 .andExpect(status().isCreated())
                 .andDo(print());
-        /*MvcResult result=mockMvc.perform(request).andReturn();
-        MockHttpServletResponse response = result.getResponse();
-        Assert.assertEquals(HttpStatus.CREATED.value(),response.getStatus());
-        String expected = "{\"name\":\"test\",\"age\":33}";
-        //logger.info(result.getResponse().getContentAsString());
-        JSONAssert.assertEquals(expected,result.getResponse().getContentAsString(),false);*/
     }
 
 }

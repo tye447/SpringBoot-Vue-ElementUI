@@ -1,5 +1,8 @@
 package com.example.controller;
 
+import com.example.common.RestResult;
+import com.example.common.ResultCode;
+import com.example.common.ResultGenerator;
 import com.example.model.Client;
 import com.example.model.EntityFactory;
 import com.example.service.ClientService;
@@ -15,51 +18,63 @@ import java.util.List;
 public class ClientController {
     @Autowired
     private ClientService clientService;
+    @Autowired
+    private ResultGenerator resultGenerator;
 
     @GetMapping(value = "/list")
     @ResponseBody
     @ResponseStatus(HttpStatus.OK)
-    public List<Client> clientList() {
-        return clientService.listClient();
+    public RestResult clientList() {
+        List<Client> clientList;
+        try{
+            clientList=clientService.listClient();
+            return resultGenerator.getSuccessResult(ResultCode.SUCCESS.toString(),clientList);
+        }catch (Exception e){
+            return resultGenerator.getFailResult(e.getMessage());
+        }
     }
 
     @PostMapping(value = "/add")
     @ResponseBody
-    @ResponseStatus(HttpStatus.CREATED)
-    public Object addClient(@RequestParam("name") String name, @RequestParam("description") String description) {
-        Client client = (Client)EntityFactory.getEntity("Client");
-        client.setName(name);
-        client.setDescription(description);
-        return clientService.addClient(client);
-    }
-
-    @GetMapping(value = "/get")
-    @ResponseBody
     @ResponseStatus(HttpStatus.OK)
-    public Client findByName(@RequestParam("name") String name) {
-        Client client = clientService.findByName(name);
-        return client;
+    public RestResult addClient(@RequestParam("name") String name, @RequestParam("description") String description) {
+        try{
+            Client client = (Client)EntityFactory.getEntity("Client");
+            client.setName(name);
+            client.setDescription(description);
+            clientService.addClient(client);
+            return resultGenerator.getSuccessResult(ResultCode.SUCCESS.toString(),clientService.listClient());
+        }catch (Exception e){
+            return resultGenerator.getFailResult(e.getMessage());
+        }
     }
 
     @ResponseBody
     @PostMapping(value = "/update")
     @ResponseStatus(HttpStatus.OK)
-    public Client updateClient(@RequestParam("id") Integer id, @RequestParam(value = "name", required = false) String name, @RequestParam(value = "description", required = false) String description) throws NullPointerException {
-        Client client = (Client)EntityFactory.getEntity("Client");
-        client.setId(id);
-        if (name != null) {
+    public RestResult updateClient(@RequestParam("id") Integer id, @RequestParam(value = "name", required = false) String name, @RequestParam(value = "description", required = false) String description) throws NullPointerException {
+        try{
+            Client client = (Client)EntityFactory.getEntity("Client");
+            client.setId(id);
             client.setName(name);
-        }
-        if (description != null) {
             client.setDescription(description);
+            clientService.updateClient(id,client);
+            return resultGenerator.getSuccessResult(ResultCode.SUCCESS.toString(),clientService.listClient());
+        }catch (Exception e){
+            return resultGenerator.getFailResult(e.getMessage());
         }
-        return clientService.updateClient(id, client);
     }
 
     @ResponseBody
     @DeleteMapping(value = "/delete")
     @ResponseStatus(HttpStatus.OK)
-    public void deleteClient(@RequestParam("id") Integer id) {
-        clientService.deleteClient(id);
+    public RestResult deleteClient(@RequestParam("id") Integer id) {
+        try{
+            clientService.deleteClient(id);
+            return resultGenerator.getSuccessResult(ResultCode.SUCCESS.toString(),clientService.listClient());
+        }catch (Exception e){
+            return resultGenerator.getFailResult(e.getMessage());
+        }
+
     }
 }

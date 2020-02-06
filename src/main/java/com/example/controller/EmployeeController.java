@@ -1,10 +1,14 @@
 package com.example.controller;
 
+import com.example.common.RestResult;
+import com.example.common.ResultCode;
+import com.example.common.ResultGenerator;
 import com.example.model.Commande;
 import com.example.model.Employee;
 import com.example.model.EntityFactory;
 import com.example.service.EmployeeService;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
@@ -14,56 +18,70 @@ import java.util.List;
 @RequestMapping("employee")
 @CrossOrigin(allowCredentials = "true", maxAge = 3600)
 public class EmployeeController {
+    @Autowired
     private EmployeeService employeeService;
-
-    public EmployeeController(EmployeeService employeeService) {
-        this.employeeService = employeeService;
-    }
+    @Autowired
+    private ResultGenerator resultGenerator;
 
     @GetMapping(value = "/list")
     @ResponseBody
     @ResponseStatus(HttpStatus.OK)
-    public List<Employee> listEmployee() {
-        return employeeService.listEmployee();
+    public RestResult listEmployee() {
+        List<Employee> employeeList;
+        try {
+            employeeList=employeeService.listEmployee();
+            return resultGenerator.getSuccessResult(ResultCode.SUCCESS.toString(),employeeList);
+        }catch (Exception e){
+            return resultGenerator.getFailResult(e.getMessage());
+        }
     }
 
     @PostMapping(value = "/add")
     @ResponseBody
-    @ResponseStatus(HttpStatus.CREATED)
-    public Object addEmployee(@RequestParam("name") String name, @RequestParam("age") Integer age, @RequestParam("password") String password) {
-        Employee employee = (Employee) EntityFactory.getEntity("Employee");
-        employee.setName(name);
-        employee.setPassword(password);
-        employee.setAge(age);
-        return employeeService.addEmployee(employee);
+    @ResponseStatus(HttpStatus.OK)
+    public RestResult addEmployee(@RequestParam("name") String name, @RequestParam("age") Integer age, @RequestParam("password") String password) {
+        try {
+            Employee employee = (Employee) EntityFactory.getEntity("Employee");
+            employee.setName(name);
+            employee.setPassword(password);
+            employee.setAge(age);
+            employeeService.addEmployee(employee);
+            return resultGenerator.getSuccessResult(ResultCode.SUCCESS.toString(),employeeService.listEmployee());
+        }catch (Exception e){
+            return resultGenerator.getFailResult(ResultCode.FAIL.toString());
+        }
     }
 
     @ResponseBody
     @PostMapping(value = "/update")
     @ResponseStatus(HttpStatus.OK)
-    public Employee updateEmployee(@RequestParam("id") Integer id,
+    public RestResult updateEmployee(@RequestParam("id") Integer id,
                                    @RequestParam(value = "password",required = false) String password,
                                    @RequestParam(value = "name", required = false) String name,
                                    @RequestParam(value = "age", required = false) Integer age) {
-        Employee employee = (Employee) EntityFactory.getEntity("Employee");
-        employee.setId(id);
-        if (name != null) {
+        try{
+            Employee employee = (Employee) EntityFactory.getEntity("Employee");
+            employee.setId(id);
             employee.setName(name);
-        }
-        if(password!=null) {
-          employee.setPassword(password);
-        }
-        if (age != null) {
+            employee.setPassword(password);
             employee.setAge(age);
+            employeeService.updateEmployee(id, employee);
+            return resultGenerator.getSuccessResult(ResultCode.SUCCESS.toString(),employeeService.listEmployee());
+        }catch (Exception e){
+            return resultGenerator.getFailResult(ResultCode.FAIL.toString());
         }
-        return employeeService.updateEmployee(id, employee);
     }
 
     @ResponseBody
-    @PostMapping(value = "/delete")
+    @DeleteMapping(value = "/delete")
     @ResponseStatus(HttpStatus.OK)
-    public void deleteEmployee(@RequestParam("id") Integer id) {
-        employeeService.deleteEmployee(id);
+    public RestResult deleteEmployee(@RequestParam("id") Integer id) {
+        try{
+            employeeService.deleteEmployee(id);
+            return resultGenerator.getSuccessResult(ResultCode.SUCCESS.toString(),employeeService.listEmployee());
+        }catch (Exception e){
+            return resultGenerator.getFailResult(ResultCode.FAIL.toString());
+        }
     }
 
 }
